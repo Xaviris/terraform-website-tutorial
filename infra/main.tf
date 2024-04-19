@@ -30,17 +30,17 @@ resource "google_dns_managed_zone" "terraform-codecamp-tutorial" {
     dns_name = "terraform-test.com."
 }
 
-# Get managed DNS Zone
-data "google_dns_managed_zone" "dns_zone" {
-    name = "terraform-codecamp-tutorial"
-}
+# # Get managed DNS Zone
+# data "google_dns_managed_zone" "dns_zone" {
+#     name = "terraform-codecamp-tutorial"
+# }
 
 # Add IP to DNS
 resource "google_dns_record_set" "website" {
-    name = "website.${data.google_dns_managed_zone.dns_zone.dns_name}"
+    name = "website.${google_dns_managed_zone.terraform-codecamp-tutorial.dns_name}"
     type = "A"
     ttl = 300
-    managed_zone = data.google_dns_managed_zone.dns_zone.name
+    managed_zone = google_dns_managed_zone.terraform-codecamp-tutorial.name
     rrdatas = [google_compute_global_address.website_ip.address]
 }
 
